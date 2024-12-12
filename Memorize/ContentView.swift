@@ -12,15 +12,18 @@ import SwiftUI
 
 // ContentView behaves like a View. Functions like, Functional Programmming.
 // Behavior, how this struct behaves like.
+
+let card = RoundedRectangle(cornerRadius: 12)
+
 struct ContentView: View {
     // Computed Property. Everytime someone asks for body, it is run (read only). Not stored.
     
     var body: some View {
         HStack {
-            CardView(isFaceUp: true)
-            CardView()
-            CardView()
-            CardView()
+            CardView(isFaceUp: false, emoji: "👻")
+            CardView(emoji: "🎃")
+            CardView(emoji: "🧛🏻‍♂️")
+            CardView(emoji: "🧙‍♀️")
         }
         .foregroundColor(.orange)
         .padding()
@@ -28,33 +31,37 @@ struct ContentView: View {
 }
 
 struct CardView: View {
-    var isFaceUp: Bool = false
+    @State var isFaceUp = true //@State is a pointer, temporary state
+    
+    var emoji: String
     
     var body: some View {
         ZStack {
             if isFaceUp {
-                CardFrontView()
+                CardFrontView(thisEmoji: emoji)
             } else {
                 CardBackView()
             }
+        }.onTapGesture {
+            isFaceUp.toggle()
         }
     }
 }
 
 
 struct CardFrontView: View {
+    var thisEmoji: String
+    
     var body: some View {
-        RoundedRectangle(cornerRadius: 12)
-            .foregroundColor(.white)
-        RoundedRectangle(cornerRadius: 12)
-            .strokeBorder(lineWidth: 2)
-        Text("👻").font(.largeTitle)
+        card.foregroundColor(.white)
+        card.strokeBorder(lineWidth: 2)
+        Text(thisEmoji).font(.largeTitle)
     }
 }
 
 struct CardBackView: View {
     var body: some View {
-        RoundedRectangle(cornerRadius: 12)
+        card.fill()
     }
 }
 
