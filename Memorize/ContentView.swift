@@ -76,16 +76,22 @@ struct ContentView: View {
 
 struct CardView: View {
     let emoji: String
-    @State var isFaceUp = true //@State is a pointer, temporary state
+    //@State is a pointer, temporary state
+    @State var isFaceUp = true
     
     var body: some View {
         ZStack {
+            // Layer 1: Face-up side (white background + border + emoji)
             Group {
-                card.fill(.white)
-                card.strokeBorder(lineWidth: 2)
-                Text(emoji).font(.largeTitle)
+                card.fill(.white)      // White background
+                card.strokeBorder()    // Border
+                Text(emoji)            // Emoji
             }
+            // All become invisible when face down
             .opacity(isFaceUp ? 1 : 0)
+            
+            // Layer 2: Face-down side (solid fill)
+            // Becomes visible when face down
             card.fill().opacity(isFaceUp ? 0 : 1)
         }
         .onTapGesture {
