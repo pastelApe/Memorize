@@ -17,13 +17,13 @@ let card = RoundedRectangle(cornerRadius: 12)
 
 struct ContentView: View {
     // Computed Property. Everytime someone asks for body, it is run (read only). Not stored.
+    let emojis = ["👻", "🎃", "🧛🏻‍♂️", "🧙‍♀️"]
     
     var body: some View {
         HStack {
-            CardView(isFaceUp: false, emoji: "👻")
-            CardView(emoji: "🎃")
-            CardView(emoji: "🧛🏻‍♂️")
-            CardView(emoji: "🧙‍♀️")
+            ForEach(emojis.indices, id: \.self) { emoji in
+                CardView(emoji: emojis[emoji])
+            }
         }
         .foregroundColor(.orange)
         .padding()
@@ -33,7 +33,7 @@ struct ContentView: View {
 struct CardView: View {
     @State var isFaceUp = true //@State is a pointer, temporary state
     
-    var emoji: String
+    let emoji: String
     
     var body: some View {
         ZStack {
@@ -50,7 +50,7 @@ struct CardView: View {
 
 
 struct CardFrontView: View {
-    var thisEmoji: String
+    let thisEmoji: String
     
     var body: some View {
         card.foregroundColor(.white)
